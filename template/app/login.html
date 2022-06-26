@@ -14,7 +14,7 @@
       {{fm.label_tag}} {{fm}} <small class="text-danger">{{fm.errors|striptags}}</small> <br>
       </div>
      {% endfor %}
-     <small><a href="#">Forgot Password ?</a></small> <br>
+     <small><a href="{% url 'password_reset' %}">Forgot Password ?</a></small> <br>
      <input type="submit" class="btn btn-primary mt-4" value="Login">
      <br>
      <div class="text-center text-primary fw-bold"><small>New to MonkeyKeen? <a href="{% url 'customerregistration' %}" class="text-danger">Create an Account</a> </small></div>
