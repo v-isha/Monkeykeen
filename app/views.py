@@ -1,12 +1,12 @@
 from django import views
-from django.shortcuts import render
+from django.shortcuts import render , redirect
 from . models import Product
-from .forms import CustomerRegistrationForm ,LoginForm , CustomerProfileForm
+from .forms import CustomerRegistrationForm , CustomerProfileForm
 from django.views import View
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-from django.contrib.auth import authenticate,login,logout
-from .models import User ,  Customer
+# from django.contrib.auth import authenticate,login,logout
+from .models import Customer , Cart
 
 
 #Landing page 
@@ -45,22 +45,55 @@ class CustomerRegistrationView(View):
 
 # enduser registration
 
-
+# cart
 
 def add_to_cart(request):
- return render(request, 'app/addtocart.html')
+	user = request.user
+	product = request.GET.get('prod_id')
+	product_title = Product.objects.get(id=product)
+	Cart(user=user, product=product_title).save()
+	messages.success(request, 'Product Added to Cart Successfully !!' )
+	return redirect('/cart')
+	
+def show_cart(request):
+	totalitem = 0
+	if request.user.is_authenticated:
+		totalitem = len(Cart.objects.filter(user=request.user))
+		user = request.user
+		cart = Cart.objects.filter(user=user)
+		amount = 0.0
+		shipping_amount = 70.0
+		totalamount=0.0
+		cart_product = [p for p in Cart.objects.all() if p.user == request.user]
+		print(cart_product)
+		if cart_product:
+			for p in cart_product:
+				tempamount = (p.quantity * p.product.discounted_price)
+				amount += tempamount
+			totalamount = amount+shipping_amount
+			return render(request, 'app/addtocart.html', {'carts':cart, 'amount':amount, 'totalamount':totalamount, 'totalitem':totalitem})
+		else:
+			return render(request, 'app/emptycart.html', {'totalitem':totalitem})
+	else:
+		return render(request, 'app/emptycart.html', {'totalitem':totalitem})
+
+		
+
+
 
 def buy_now(request):
  return render(request, 'app/buynow.html')
-
-
-
 
 def orders(request):
  return render(request, 'app/orders.html')
 
 def checkout(request):
  return render(request, 'app/checkout.html')
+
+# end cart
+
+
+
 
 class ProfileView(View):
 	def get(self, request):
@@ -90,21 +123,9 @@ class ProfileView(View):
 		return render(request, 'app/profile.html', {'form':form, 'active':'btn-primary',})
 		# return render(request, 'app/profile.html', {'form':form, 'active':'btn-primary', 'totalitem':totalitem})
 
-
-
-
 def address(request):
   add = Customer.objects.filter(user=request.user)
   return render(request, 'app/address.html',{"add":add,"active":"btn-primary"})
-
-
-
-
-
-
-
-
-
 
 # navbar page making@ 2:15:00 topwear bottomwear
 def mobile(request):
