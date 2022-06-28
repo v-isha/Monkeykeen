@@ -29,18 +29,14 @@ urlpatterns = [
     
     path('add-to-cart/', views.add_to_cart, name='add-to-cart'),
     path('cart/', views.show_cart, name='showcart'),
-    
-    
-    
-    
-    
-    
-    
-    
-    path('buy/', views.buy_now, name='buy-now'),
-    path('orders/', views.orders, name='orders'),
+    path('pluscart/', views.plus_cart),
+    path('minuscart/', views.minus_cart),
+    path('removecart/', views.remove_cart),
+
     path('checkout/', views.checkout, name='checkout'),
-    
-    
+    path('paymentdone/', views.payment_done, name='paymentdone'),
+    path('orders/', views.orders, name='orders'),
+    path('buy/', views.buy_now, name='buy-now'),
     path('mobile/', views.mobile, name='mobile'),
+    path('mobile/<slug:data>', views.mobile, name='mobiledata'),
 ] + static(settings.MEDIA_URL , document_root =settings.MEDIA_ROOT)

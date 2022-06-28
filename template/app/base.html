@@ -40,10 +40,10 @@
              </a>
              <ul class="dropdown-menu" aria-labelledby="electronicsDropdown">
                <li><a class="dropdown-item text-primary" href="{% url 'mobile' %}">Mobile</a></li>
-               <li><a class="dropdown-item text-primary " href="#">Laptop</a></li>
+               {% comment %} <li><a class="dropdown-item text-primary " href="#">Laptop</a></li> {% endcomment %}
              </ul>
            </li>
-           <li class="nav-item dropdown">
+           {% comment %} <li class="nav-item dropdown">
              <a class="nav-link dropdown-toggle text-primary" href="#" id="fashionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                Fashion
              </a>
@@ -51,7 +51,7 @@
                <li><a class="dropdown-item text-primary" href="#">Top Wear</a></li>
                <li><a class="dropdown-item text-primary" href="#">Bottom Wear</a></li>
              </ul>
-           </li>
+           </li> {% endcomment %}
          </ul>
          {% comment %} <form class="d-flex">
            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -73,7 +73,7 @@
               </ul>
             </li>
             <li class="nav-item mx-2">
-             <a href="{% url 'showcart' %}" class="nav-link text-primary"><span class="badge bg-danger">4</span> Cart </a>
+             <a href="{% url 'showcart' %}" class="nav-link text-primary"><span class="badge bg-danger">{{totalitem}}</span> Cart </a>
             </li>
             {% else %}
             <li class="nav-item mx-2">
